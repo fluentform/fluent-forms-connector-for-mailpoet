@@ -30,7 +30,7 @@ class Bootstrap extends IntegrationManager
 
         $this->registerAdminHooks();
 
-        add_filter('fluentform_notifying_async_mailpoet', '__return_false');
+       // add_filter('fluentform_notifying_async_mailpoet', '__return_false');
     }
 
     public function pushIntegration($integrations, $formId)
@@ -201,13 +201,7 @@ class Bootstrap extends IntegrationManager
         }
 
         if (!is_email($contact['email'])) {
-            $this->addLog(
-                $feed['settings']['name'],
-                'failed',
-                'MailPoet API called skipped because no valid email available',
-                $form->id,
-                $entry->id
-            );
+            do_action('ff_integration_action_result', $feed, 'info', 'MailPoet API called skipped because no valid email available');
             return;
         }
 
@@ -217,13 +211,7 @@ class Bootstrap extends IntegrationManager
         try {
             $subscriber = $api->getSubscriber($contact['email']);
             if ($subscriber) {
-                $this->addLog(
-                    $feed['settings']['name'],
-                    'info',
-                    'Contact creation has been skipped because contact already exist at MailPoet',
-                    $form->id,
-                    $entry->id
-                );
+                do_action('ff_integration_action_result', $feed, 'info', 'Contact creation has been skipped because contact already exist at MailPoet');
                 return;
             }
         } catch (\Exception $exception) {
@@ -240,21 +228,9 @@ class Bootstrap extends IntegrationManager
                 Arr::get($data, 'list_id')
             ], $options);
 
-            $this->addLog(
-                $feed['settings']['name'],
-                'success',
-                'Contact has been created in MailPoet. Contact ID: ' . $subscriber->id,
-                $form->id,
-                $entry->id
-            );
+            do_action('ff_integration_action_result', $feed, 'success', 'Contact has been created in MailPoet. Contact ID: ' . $subscriber['id']);
         } catch (\Exception $exception) {
-            $this->addLog(
-                $feed['settings']['name'],
-                'failed',
-                $exception->getMessage(),
-                $form->id,
-                $entry->id
-            );
+            do_action('ff_integration_action_result', $feed, 'failed', $exception->getMessage());
         }
     }
 
