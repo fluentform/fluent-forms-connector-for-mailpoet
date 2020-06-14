@@ -61,7 +61,6 @@ class Bootstrap extends IntegrationManager
                 ]
             ],
             'list_id' => '',
-            'skip_if_exists' => false,
             'send_confirmation_email' => false,
             'conditionals' => [
                 'conditions' => [],
@@ -126,12 +125,6 @@ class Bootstrap extends IntegrationManager
                     'field_label_remote' => 'MailPoet Field',
                     'field_label_local' => 'Form Field',
                     'options' => $this->getCustomFields()
-                ],
-                [
-                    'key' => 'skip_if_exists',
-                    'require_list' => false,
-                    'checkbox_label' => 'Skip if contact already exist in MailPoet',
-                    'component' => 'checkbox-single'
                 ],
                 [
                     'key' => 'send_confirmation_email',
@@ -227,7 +220,7 @@ class Bootstrap extends IntegrationManager
                 $this->addLog(
                     $feed['settings']['name'],
                     'info',
-                    'Contact creation has been skipped because contact already exist in at MailPoet',
+                    'Contact creation has been skipped because contact already exist at MailPoet',
                     $form->id,
                     $entry->id
                 );
