@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Fluent Forms Connector for mailpoet
- * Plugin URI:  https://github.com/WPManageNinja/mailpoet-fluentform-connector
+ * Plugin URI:  https://github.com/WPManageNinja/fluent-forms-connector-for-mailpoet
  * Description: Connect Fluent Forms with MailPoet.
  * Author: WPManageNinja LLC
  * Author URI:  https://wpmanageninja.com
