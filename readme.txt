@@ -1,4 +1,4 @@
-=== MailPoet Fluent Forms Connector  ===
+=== Fluent Forms Connector for MailPoet  ===
 Contributors: techjewel,wpmanageninja
 Tags: Integration, MailPoet, Form, Integration
 Requires at least: 5.0
@@ -11,28 +11,28 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Connect Fluent Forms with MailPoet.
 
 == Description ==
-Integration with MailPoet for Fluent Forms sends Forms form data of your to MailPoet automatically. You can segment your form data and push to MailPoet Subscribers.
+Connect Fluent Forms form with MailPoet. You can segment your form data and push to MailPoet Subscribers.
 
 
 == Installation ==s
-This section describes how to install the plugin (MailPoet Fluent Forms Connector) and get it working.
+This section describes how to install the plugin (Fluent Forms Connector for MailPoet) and get it working.
 Install From WordPress Admin Panel:
 
 1. Login to your WordPress Admin Area
 2. Go to Plugins -> Add New
-3. Type "MailPoet Fluent Forms Connector" into the Search and hit Enter.
+3. Type "Fluent Forms Connector for MailPoet" into the Search and hit Enter.
 4. Find this plugin Click "install now"
 5. Activate The Plugin
 6. Use MailPoet on your site form the FluentForms module dashboard.
 
 
 = Manual Installation =
-1. Download the "MailPoet Fluent Forms Connector" plugin from WordPress.org repository
+1. Download the "Fluent Forms Connector for MailPoet" plugin from WordPress.org repository
 2. On your WordPress admin dashboard, go to Plugins -> Add New -> Upload Plugin
 3. Upload the downloaded plugin file and click Install Now
 4. Be sure your FluentForms plugin is activated already.
-5. Activate "MailPoet Fluent Forms Connector" from your Plugins page.
-6. Use MailPoet Fluent Forms Connector on your site form the FluentForms module dashboard.
+5. Activate "Fluent Forms Connector for MailPoet" from your Plugins page.
+6. Use Fluent Forms Connector for MailPoet on your site form the FluentForms module dashboard.
 
 == Screenshots ==
 

@@ -1,3 +1,3 @@
-# MailPoet Integration Addon for Fluent Forms
+# Fluent Forms Connector for mailpoet
 
 
