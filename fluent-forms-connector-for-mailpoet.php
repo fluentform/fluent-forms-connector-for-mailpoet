@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: Fluent Forms Connector for MailPoet
- * Plugin URI:  https://github.com/WPManageNinja/fluent-forms-connector-for-mailpoet
+ * Plugin URI:  https://github.com/fluentform/fluent-forms-connector-for-mailpoet
  * Description: Connect Fluent Forms with MailPoet.
  * Author: WPManageNinja LLC
- * Author URI:  https://wpmanageninja.com
+ * Author URI:  https://wpmanageninja.com/wp-fluent-form/
  * Version: 1.0.0
  * Text Domain: ffmailpoet
  */
@@ -50,7 +50,7 @@ class FluentFormMailPoet
 
     protected function includeFiles()
     {
-        include_once FFMAILPOET_DIR.'Integrations/Bootstrap.php';
+        include_once FFMAILPOET_DIR . 'Integrations/Bootstrap.php';
     }
 
     protected function registerHooks($fluentForm)
@@ -87,7 +87,7 @@ class FluentFormMailPoet
     {
         $activation = (object)[
             'action' => 'install',
-            'url'    => ''
+            'url' => ''
         ];
 
         $allPlugins = get_plugins();
@@ -116,9 +116,9 @@ class FluentFormMailPoet
     }
 }
 
-register_activation_hook( __FILE__, function () {
+register_activation_hook(__FILE__, function () {
     $globalModules = get_option('fluentform_global_modules_status');
-    if(!$globalModules || !is_array($globalModules)) {
+    if (!$globalModules || !is_array($globalModules)) {
         $globalModules = [];
     }
 
