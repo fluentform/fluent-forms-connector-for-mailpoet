@@ -15,6 +15,7 @@ class Bootstrap extends IntegrationManager
 
     public function __construct(Application $app)
     {
+
         parent::__construct(
             $app,
             'MailPoet',
@@ -129,7 +130,16 @@ class Bootstrap extends IntegrationManager
                 [
                     'key' => 'send_confirmation_email',
                     'require_list' => false,
+                    'label' => 'Confirmation Email',
                     'checkbox_label' => 'Send Confirmation Email',
+                    'component' => 'checkbox-single'
+                ],
+                [
+                    'key' => 'update_contact_list',
+                    'require_list' => false,
+                    'checkbox_label' => 'Enable Update Contact List',
+                    'label' => 'Update List',
+                    'tips' => 'For existing subscriber allow updating subscriber list',
                     'component' => 'checkbox-single'
                 ],
                 [
@@ -210,12 +220,28 @@ class Bootstrap extends IntegrationManager
 
         try {
             $subscriber = $api->getSubscriber($contact['email']);
+            $updateList = Arr::isTrue($data, 'update_contact_list');
             if ($subscriber) {
+                if($updateList){
+                    $listId = Arr::get($data, 'list_id');
+                    $subscribedLists = array_column(Arr::get($subscriber,'subscriptions'), 'segment_id') ;
+                    if (!in_array($listId, $subscribedLists)) {
+                        $options = [
+                            'skip_subscriber_notification' => true,
+                            'send_confirmation_email' => Arr::isTrue($data, 'send_confirmation_email')
+                        ];
+                        $api->subscribeToList($contact['email'], $listId, $options);
+                        do_action('ff_integration_action_result', $feed, 'success', 'Contact list has been updated at MailPoet');
+                        return;
+                    }
+                    do_action('ff_integration_action_result', $feed, 'info', 'Contact creation has been skipped because contact already exist in same list at MailPoet');
+                    return;
+                }
                 do_action('ff_integration_action_result', $feed, 'info', 'Contact creation has been skipped because contact already exist at MailPoet');
                 return;
             }
         } catch (\Exception $exception) {
-
+            do_action('ff_integration_action_result', $feed, 'failed', $exception->getMessage());
         }
 
         try {
