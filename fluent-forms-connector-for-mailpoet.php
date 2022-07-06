@@ -5,7 +5,7 @@
  * Description: Connect Fluent Forms with MailPoet.
  * Author: WPManageNinja LLC
  * Author URI:  https://wpmanageninja.com/wp-fluent-form/
- * Version: 1.0.0
+ * Version: 1.0.1
  * Text Domain: ffmailpoet
  */
 
