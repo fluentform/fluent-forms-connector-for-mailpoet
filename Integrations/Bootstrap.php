@@ -2,12 +2,11 @@
 
 namespace FluentFormMailPoet\Integrations;
 
-use FluentForm\App\Services\Integrations\IntegrationManager;
+use FluentForm\App\Http\Controllers\IntegrationManagerController;
 use FluentForm\Framework\Foundation\Application;
 use FluentForm\Framework\Helpers\ArrayHelper as Arr;
-use MailPoet\Models\CustomField;
 
-class Bootstrap extends IntegrationManager
+class Bootstrap extends IntegrationManagerController
 {
     public $hasGlobalMenu = false;
 
@@ -159,11 +158,16 @@ class Bootstrap extends IntegrationManager
 
     protected function getCustomFields()
     {
-        $customFields = CustomField::selectMany(['id', 'name', 'type', 'params'])->findMany();
+        $api = $this->getApi();
+        $customFields = $api->getSubscriberFields();
 
         $fields = [];
         foreach ($customFields as $customField) {
-            $fields['cf_' . $customField->id] = $customField->name;
+            $id = Arr::get($customField, 'id');
+            $name = Arr::get($customField, 'name');
+            if ($id && $name) {
+                $fields['cf_' . $customField['id']] = $customField['name'];
+            }
         }
         return $fields;
     }
@@ -294,29 +298,5 @@ class Bootstrap extends IntegrationManager
     public function isEnabled()
     {
         return true;
-    }
-
-    protected function addLog($title, $status, $description, $formId, $entryId)
-    {
-        $logData = [
-            'title' => $title,
-            'status' => $status,
-            'description' => $description,
-            'parent_source_id' => $formId,
-            'source_id' => $entryId,
-            'component' => $this->integrationKey,
-            'source_type' => 'submission_item'
-        ];
-        do_action_deprecated(
-            'ff_log_data',
-            [
-                $logData
-            ],
-            FLUENTFORM_FRAMEWORK_UPGRADE,
-            'fluentform/log_data',
-            'Use fluentform/log_data instead of ff_log_data.'
-        );
-
-        do_action('fluentform/log_data', $logData);
     }
 }
