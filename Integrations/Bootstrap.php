@@ -155,13 +155,16 @@ class Bootstrap extends IntegrationManagerController
     {
         return [];
     }
-
+    
     protected function getCustomFields()
     {
         $api = $this->getApi();
         $customFields = $api->getSubscriberFields();
-
+        
         $fields = [];
+        if (empty($customFields)) {
+            return $fields;
+        }
         foreach ($customFields as $customField) {
             $id = Arr::get($customField, 'id');
             $name = Arr::get($customField, 'name');
