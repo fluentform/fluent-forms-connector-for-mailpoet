@@ -2,12 +2,11 @@
 
 namespace FluentFormMailPoet\Integrations;
 
-use FluentForm\App\Services\Integrations\IntegrationManager;
+use FluentForm\App\Http\Controllers\IntegrationManagerController;
 use FluentForm\Framework\Foundation\Application;
 use FluentForm\Framework\Helpers\ArrayHelper as Arr;
-use MailPoet\Models\CustomField;
 
-class Bootstrap extends IntegrationManager
+class Bootstrap extends IntegrationManagerController
 {
     public $hasGlobalMenu = false;
 
@@ -30,7 +29,7 @@ class Bootstrap extends IntegrationManager
 
         $this->registerAdminHooks();
 
-       // add_filter('fluentform_notifying_async_mailpoet', '__return_false');
+       // add_filter('fluentform/notifying_async_mailpoet', '__return_false');
     }
 
     public function pushIntegration($integrations, $formId)
@@ -159,11 +158,16 @@ class Bootstrap extends IntegrationManager
 
     protected function getCustomFields()
     {
-        $customFields = CustomField::selectMany(['id', 'name', 'type', 'params'])->findMany();
+        $api = $this->getApi();
+        $customFields = $api->getSubscriberFields();
 
         $fields = [];
         foreach ($customFields as $customField) {
-            $fields['cf_' . $customField->id] = $customField->name;
+            $id = Arr::get($customField, 'id');
+            $name = Arr::get($customField, 'name');
+            if ($id && $name) {
+                $fields['cf_' . $customField['id']] = $customField['name'];
+            }
         }
         return $fields;
     }
@@ -201,7 +205,18 @@ class Bootstrap extends IntegrationManager
         }
 
         if (!is_email($contact['email'])) {
-            do_action('ff_integration_action_result', $feed, 'info', 'MailPoet API called skipped because no valid email available');
+            do_action_deprecated(
+                'ff_integration_action_result',
+                [
+                    $feed,
+                    'info',
+                    'MailPoet API called skipped because no valid email available'
+                ],
+                FLUENTFORM_FRAMEWORK_UPGRADE,
+                'fluentform/integration_action_result',
+                'Use fluentform/integration_action_result instead of ff_integration_action_result.'
+            );
+            do_action('fluentform/integration_action_result', $feed, 'info', 'MailPoet API called skipped because no valid email available');
             return;
         }
 
@@ -211,7 +226,18 @@ class Bootstrap extends IntegrationManager
         try {
             $subscriber = $api->getSubscriber($contact['email']);
             if ($subscriber) {
-                do_action('ff_integration_action_result', $feed, 'info', 'Contact creation has been skipped because contact already exist at MailPoet');
+                do_action_deprecated(
+                    'ff_integration_action_result',
+                    [
+                        $feed,
+                        'info',
+                        'Contact creation has been skipped because contact already exist at MailPoet'
+                    ],
+                    FLUENTFORM_FRAMEWORK_UPGRADE,
+                    'fluentform/integration_action_result',
+                    'Use fluentform/integration_action_result instead of ff_integration_action_result.'
+                );
+                do_action('fluentform/integration_action_result', $feed, 'info', 'Contact creation has been skipped because contact already exist at MailPoet');
                 return;
             }
         } catch (\Exception $exception) {
@@ -228,9 +254,33 @@ class Bootstrap extends IntegrationManager
                 Arr::get($data, 'list_id')
             ], $options);
 
-            do_action('ff_integration_action_result', $feed, 'success', 'Contact has been created in MailPoet. Contact ID: ' . $subscriber['id']);
+            do_action_deprecated(
+                'ff_integration_action_result',
+                [
+                    $feed,
+                    'success',
+                    'Contact has been created in MailPoet. Contact ID: ' . $subscriber['id']
+                ],
+                FLUENTFORM_FRAMEWORK_UPGRADE,
+                'fluentform/integration_action_result',
+                'Use fluentform/integration_action_result instead of ff_integration_action_result.'
+            );
+
+            do_action('fluentform/integration_action_result', $feed, 'success', 'Contact has been created in MailPoet. Contact ID: ' . $subscriber['id']);
         } catch (\Exception $exception) {
-            do_action('ff_integration_action_result', $feed, 'failed', $exception->getMessage());
+            do_action_deprecated(
+                'ff_integration_action_result',
+                [
+                    $feed,
+                    'failed',
+                    $exception->getMessage()
+                ],
+                FLUENTFORM_FRAMEWORK_UPGRADE,
+                'fluentform/integration_action_result',
+                'Use fluentform/integration_action_result instead of ff_integration_action_result.'
+            );
+
+            do_action('fluentform/integration_action_result', $feed, 'failed', $exception->getMessage());
         }
     }
 
@@ -248,18 +298,5 @@ class Bootstrap extends IntegrationManager
     public function isEnabled()
     {
         return true;
-    }
-
-    protected function addLog($title, $status, $description, $formId, $entryId)
-    {
-        do_action('ff_log_data', [
-            'title' => $title,
-            'status' => $status,
-            'description' => $description,
-            'parent_source_id' => $formId,
-            'source_id' => $entryId,
-            'component' => $this->integrationKey,
-            'source_type' => 'submission_item'
-        ]);
     }
 }
