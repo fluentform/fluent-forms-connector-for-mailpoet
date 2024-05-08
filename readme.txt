@@ -4,7 +4,7 @@ Tags: Integration, MailPoet, Form, Integration, Fluent Forms
 Requires at least: 5.0
 Tested up to: 6.5.2
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,9 @@ Install From WordPress Admin Panel:
 
 
 == Changelog ==
+= 1.0.4 =
+* Fix custom field mapping
+
 = 1.0.3 =
 * WordPress 6.5.2 Support Added
 * Compatible with MailPoet v4.48.2
