@@ -25,11 +25,11 @@ class Bootstrap extends IntegrationManagerController
 
         $this->logo = FFMAILPOET_URL . 'assets/mailpoet.png';
 
-        $this->description = 'Connect MailPoet with WP Fluent Forms and subscribe a contact when a form is submitted.';
+        $this->description = __('Connect MailPoet with WP Fluent Forms and subscribe a contact when a form is submitted.', 'ffmailpoet');
 
         $this->registerAdminHooks();
 
-       // add_filter('fluentform/notifying_async_mailpoet', '__return_false');
+        // add_filter('fluentform/notifying_async_mailpoet', '__return_false');
     }
 
     public function pushIntegration($integrations, $formId)
@@ -38,10 +38,10 @@ class Bootstrap extends IntegrationManagerController
             'title' => $this->title . ' Integration',
             'logo' => $this->logo,
             'is_active' => $this->isConfigured(),
-            'configure_title' => 'Configuration required!',
+            'configure_title' => __('Configuration required!', 'ffmailpoet'),
             'global_configure_url' => '#',
-            'configure_message' => 'MailPoet is not configured yet! Please configure your MailPoet api first',
-            'configure_button_text' => 'Set MailPoet'
+            'configure_message' => __('MailPoet is not configured yet! Please configure your MailPoet first', 'ffmailpoet'),
+            'configure_button_text' => __('Set MailPoet', 'ffmailpoet')
         ];
         return $integrations;
     }
@@ -76,16 +76,16 @@ class Bootstrap extends IntegrationManagerController
             'fields' => [
                 [
                     'key' => 'name',
-                    'label' => 'Feed Name',
+                    'label' => __('Feed Name', 'ffmailpoet'),
                     'required' => true,
-                    'placeholder' => 'Your Feed Name',
+                    'placeholder' => __('Your Feed Name', 'ffmailpoet'),
                     'component' => 'text'
                 ],
                 [
                     'key' => 'list_id',
-                    'label' => 'MailPoet List',
-                    'placeholder' => 'Select MailPoet List',
-                    'tips' => 'Select the MailPoet List you would like to add your contacts to.',
+                    'label' => __('MailPoet List', 'ffmailpoet'),
+                    'placeholder' => __('Select MailPoet List', 'ffmailpoet'),
+                    'tips' => __('Select the MailPoet List you would like to add your contacts to.', 'ffmailpoet'),
                     'component' => 'select',
                     'required' => true,
                     'options' => $this->getLists(),
@@ -93,57 +93,58 @@ class Bootstrap extends IntegrationManagerController
                 [
                     'key' => 'CustomFields',
                     'require_list' => false,
-                    'label' => 'Primary Fields',
-                    'tips' => 'Associate your MailPoet merge tags to the appropriate Fluent Form fields by selecting the appropriate form field from the list.',
+                    'label' => __('Primary Fields', 'ffmailpoet'),
+                    'tips' => __('Associate your MailPoet merge tags to the appropriate Fluent Form fields by selecting the appropriate form field from the list.', 'ffmailpoet'),
                     'component' => 'map_fields',
-                    'field_label_remote' => 'MailPoet Field',
-                    'field_label_local' => 'Form Field',
+                    'field_label_remote' => __('MailPoet Field', 'ffmailpoet'),
+                    'field_label_local' => __('Form Field', 'ffmailpoet'),
                     'primary_fileds' => [
                         [
                             'key' => 'email',
-                            'label' => 'Email Address',
+                            'label' => __('Email Address', 'ffmailpoet'),
                             'required' => true,
                             'input_options' => 'emails'
                         ],
                         [
                             'key' => 'first_name',
-                            'label' => 'First Name'
+                            'label' => __('First Name', 'ffmailpoet')
                         ],
                         [
                             'key' => 'last_name',
-                            'label' => 'Last Name'
+                            'label' => __('Last Name', 'ffmailpoet')
                         ]
                     ]
                 ],
                 [
                     'key' => 'other_fields',
                     'require_list' => false,
-                    'label' => 'Custom Fields',
-                    'tips' => 'Select which Fluent Form fields pair with their<br /> respective MailPoet fields.',
+                    'label' => __('Custom Fields', 'ffmailpoet'),
+                    'tips' => __('Select which Fluent Form fields pair with their respective MailPoet fields. Checkbox fields must contain true/false value like Terms&Condition/GDPR field. Date fields supports values for year_month_day: MM/DD/YYYY, DD/MM/YYYY, YYYY/MM/DD, for year_month: YYYY/M, MM/YY, for year: YYYY, for month: MM types', 'ffmailpoet'),
                     'component' => 'dropdown_many_fields',
-                    'field_label_remote' => 'MailPoet Field',
-                    'field_label_local' => 'Form Field',
+                    'field_label_remote' => __('MailPoet Field', 'ffmailpoet'),
+                    'field_label_local' => __('Form Field', 'ffmailpoet'),
                     'options' => $this->getCustomFields()
                 ],
                 [
                     'key' => 'send_confirmation_email',
                     'require_list' => false,
-                    'checkbox_label' => 'Send Confirmation Email',
+                    'tips' => __('User needed to log out to send confirmation email feature to work','ffmailpoet'),
+                    'checkbox_label' => __('Send Confirmation Email', 'ffmailpoet'),
                     'component' => 'checkbox-single'
                 ],
                 [
                     'require_list' => false,
                     'key' => 'conditionals',
-                    'label' => 'Conditional Logics',
-                    'tips' => 'Allow MailPoet integration conditionally based on your submission values',
+                    'label' => __('Conditional Logics', 'ffmailpoet'),
+                    'tips' => __('Allow MailPoet integration conditionally based on your submission values', 'ffmailpoet'),
                     'component' => 'conditional_block'
                 ],
                 [
                     'require_list' => false,
                     'key' => 'enabled',
-                    'label' => 'Status',
+                    'label' => __('Status', 'ffmailpoet'),
                     'component' => 'checkbox-single',
-                    'checkbox_label' => 'Enable This feed'
+                    'checkbox_label' => __('Enable This feed', 'ffmailpoet')
                 ]
             ],
             'button_require_list' => false,
@@ -155,21 +156,24 @@ class Bootstrap extends IntegrationManagerController
     {
         return [];
     }
-    
+
     protected function getCustomFields()
     {
         $api = $this->getApi();
         $customFields = $api->getSubscriberFields();
-        
+
         $fields = [];
-        if (empty($customFields)) {
-            return $fields;
-        }
         foreach ($customFields as $customField) {
             $id = Arr::get($customField, 'id');
-            $name = Arr::get($customField, 'name');
-            if ($id && $name) {
-                $fields['cf_' . $customField['id']] = $customField['name'];
+            if (strpos($id, 'cf') !== false) {
+                $name = Arr::get($customField, 'name');
+                $type = Arr::get($customField, 'type');
+                if ($type) {
+                    $type = '_**_' . $type;
+                }
+                if ($id && $name && $type) {
+                    $fields[$customField['id'] . $type] = $customField['name'];
+                }
             }
         }
         return $fields;
@@ -203,7 +207,18 @@ class Bootstrap extends IntegrationManagerController
 
         foreach (Arr::get($data, 'other_fields') as $field) {
             if ($field['item_value']) {
-                $contact[$field['label']] = $field['item_value'];
+                if (strpos($field['label'], '_**_') !== false) {
+                    $fieldDetails = explode('_**_', $field['label']);
+                    $fieldId = $fieldDetails[0];
+                    $fieldType = $fieldDetails[1];
+                    $value = $field['item_value'];
+                    if ($fieldType == 'checkbox') {
+                        if ($value == 'yes' || $value == 'on' || $value == 'true' || $value == '1' || $value == 'Accepted') {
+                            $value = true;
+                        }
+                    }
+                    $contact[$fieldId] = $value;
+                }
             }
         }
 
@@ -223,24 +238,24 @@ class Bootstrap extends IntegrationManagerController
             return;
         }
 
-
         $api = $this->getApi();
 
         try {
             $subscriber = $api->getSubscriber($contact['email']);
             if ($subscriber) {
+                $message = __('Contact creation has been skipped because contact already exist at MailPoet.', 'ffmailpoet');
                 do_action_deprecated(
                     'ff_integration_action_result',
                     [
                         $feed,
                         'info',
-                        'Contact creation has been skipped because contact already exist at MailPoet'
+                        $message
                     ],
                     FLUENTFORM_FRAMEWORK_UPGRADE,
                     'fluentform/integration_action_result',
                     'Use fluentform/integration_action_result instead of ff_integration_action_result.'
                 );
-                do_action('fluentform/integration_action_result', $feed, 'info', 'Contact creation has been skipped because contact already exist at MailPoet');
+                do_action('fluentform/integration_action_result', $feed, 'info', $message);
                 return;
             }
         } catch (\Exception $exception) {
@@ -257,19 +272,21 @@ class Bootstrap extends IntegrationManagerController
                 Arr::get($data, 'list_id')
             ], $options);
 
+            $message = __('Contact has been created in MailPoet. Contact ID: ', 'ffmailpoet');
+
             do_action_deprecated(
                 'ff_integration_action_result',
                 [
                     $feed,
                     'success',
-                    'Contact has been created in MailPoet. Contact ID: ' . $subscriber['id']
+                    $message . $subscriber['id']
                 ],
                 FLUENTFORM_FRAMEWORK_UPGRADE,
                 'fluentform/integration_action_result',
                 'Use fluentform/integration_action_result instead of ff_integration_action_result.'
             );
 
-            do_action('fluentform/integration_action_result', $feed, 'success', 'Contact has been created in MailPoet. Contact ID: ' . $subscriber['id']);
+            do_action('fluentform/integration_action_result', $feed, 'success', $message . $subscriber['id']);
         } catch (\Exception $exception) {
             do_action_deprecated(
                 'ff_integration_action_result',
