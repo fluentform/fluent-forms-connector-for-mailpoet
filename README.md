@@ -5,7 +5,7 @@ The Fluent Forms Connector for MailPoet is a WordPress plugin that seamlessly in
 ## Features
 
 - **Easy Integration**: Connect Fluent Forms with MailPoet effortlessly.
-- **Subscriber Management**: Automatically add form submissions to MailPoet lists.
+- **Subscriber Management**: Automatically add or update form submissions to MailPoet lists.
 - **Customizable**: Configure the integration to suit your specific needs.
 
 ## Requirements

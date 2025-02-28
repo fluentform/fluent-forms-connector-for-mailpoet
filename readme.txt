@@ -84,6 +84,7 @@ Install From WordPress Admin Panel:
 = 1.0.6 =
 * Maintenance Release
 * Fixed empty label settings
+* Adds contact list update option
 
 = 1.0.5 =
 * Fix custom field mapping
