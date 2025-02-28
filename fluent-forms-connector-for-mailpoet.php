@@ -5,7 +5,7 @@
  * Description: Connect Fluent Forms with MailPoet.
  * Author: WPManageNinja LLC
  * Author URI:  https://wpmanageninja.com/wp-fluent-form/
- * Version: 1.0.5
+ * Version: 1.0.6
  * Text Domain: ffmailpoet
  */
 
@@ -50,12 +50,21 @@ class FluentFormMailPoet
 
     protected function includeFiles()
     {
+        if (!class_exists('\FluentForm\App\Http\Controllers\IntegrationManagerController')) {
+            $this->injectDependency("FluentForm is not updated. Please install and activate the latest Fluent Forms plugin first.");
+    
+            return;
+        }
         include_once FFMAILPOET_DIR . 'Integrations/Bootstrap.php';
     }
 
     protected function registerHooks($fluentForm)
     {
         if (class_exists('\MailPoet\API\API')) {
+            if (!class_exists('\FluentForm\App\Http\Controllers\IntegrationManagerController')) {
+                return;
+            }
+         
             new \FluentFormMailPoet\Integrations\Bootstrap($fluentForm);
         }
     }
@@ -63,9 +72,9 @@ class FluentFormMailPoet
     /**
      * Notify the user about the FluentForm dependency and instructs to install it.
      */
-    protected function injectDependency()
+    protected function injectDependency($message = '')
     {
-        add_action('admin_notices', function () {
+        add_action('admin_notices', function () use($message    ){
             $pluginInfo = $this->getFluentFormInstallationDetails();
 
             $class = 'notice notice-error';
@@ -75,11 +84,13 @@ class FluentFormMailPoet
             if ($pluginInfo->action == 'activate') {
                 $install_url_text = 'Click Here to Activate the Plugin';
             }
-
-            $message = 'FluentForm MailPoet Add-On Requires Fluent Forms Add On Plugin, <b><a href="' . $pluginInfo->url
+            if(empty($message)) {
+                $message = 'Fluent Forms is not installed or activated. Please install and activate the Fluent Forms plugin first.';
+            }
+            $text = $message.', <b><a href="' . $pluginInfo->url
                 . '">' . $install_url_text . '</a></b>';
 
-            printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), $message);
+            printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), $text);
         });
     }
 

@@ -9,7 +9,7 @@ use FluentForm\Framework\Helpers\ArrayHelper as Arr;
 class Bootstrap extends IntegrationManagerController
 {
     public $hasGlobalMenu = false;
-
+    
     public $disableGlobalSettings = 'yes';
 
     public function __construct(Application $app)
@@ -128,6 +128,7 @@ class Bootstrap extends IntegrationManagerController
                 [
                     'key' => 'send_confirmation_email',
                     'require_list' => false,
+                    'label' => __('Confirmation Email', 'ffmailpoet'),
                     'tips' => __('User needed to log out to send confirmation email feature to work','ffmailpoet'),
                     'checkbox_label' => __('Send Confirmation Email', 'ffmailpoet'),
                     'component' => 'checkbox-single'

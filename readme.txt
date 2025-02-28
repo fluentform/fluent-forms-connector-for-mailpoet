@@ -2,9 +2,9 @@
 Contributors: techjewel,wpmanageninja
 Tags: Integration, MailPoet, Form, Integration, Fluent Forms
 Requires at least: 5.0
-Tested up to: 6.6.2
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,7 +53,7 @@ Fluent Forms helps you create hassle-free contact forms, subscription forms, or 
 * Advanced Data Filtering where you can see data by status and also by date range.
 
 
-[youtube https://www.youtube.com/watch?v=FFR2ZZaVF3g]
+[youtube https://www.youtube.com/watch?v=P8rK362wMQI]
 
 
 == Installation ==
@@ -80,7 +80,12 @@ Install From WordPress Admin Panel:
 
 
 == Changelog ==
-= 1.0.4 =
+
+= 1.0.6 =
+* Maintenance Release
+* Fixed empty label settings
+
+= 1.0.5 =
 * Fix custom field mapping
 
 = 1.0.3 =
