@@ -5,7 +5,7 @@
  * Description: Connect Fluent Forms with MailPoet.
  * Author: WPManageNinja LLC
  * Author URI:  https://wpmanageninja.com/wp-fluent-form/
- * Version: 1.0.6
+ * Version: 1.0.7
  * Text Domain: ffmailpoet
  */
 
@@ -87,10 +87,13 @@ class FluentFormMailPoet
             if(empty($message)) {
                 $message = 'Fluent Forms is not installed or activated. Please install and activate the Fluent Forms plugin first.';
             }
-            $text = $message.', <b><a href="' . $pluginInfo->url
-                . '">' . $install_url_text . '</a></b>';
-
-            printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), $text);
+            printf(
+                '<div class="%1$s"><p>%2$s, <b><a href="%3$s">%4$s</a></b></p></div>',
+                esc_attr($class),
+                esc_html($message),
+                esc_url($pluginInfo->url),
+                esc_html($install_url_text)
+            );
         });
     }
 
