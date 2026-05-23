@@ -2,9 +2,9 @@
 Contributors: techjewel,wpmanageninja
 Tags: Integration, MailPoet, Form, Integration, Fluent Forms
 Requires at least: 5.0
-Tested up to: 6.7
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,10 @@ Install From WordPress Admin Panel:
 
 
 == Changelog ==
+
+= 1.0.7 =
+* WordPress 7.0 Support Added
+* Security Fix: Escape admin notice output to prevent XSS
 
 = 1.0.6 =
 * Maintenance Release
